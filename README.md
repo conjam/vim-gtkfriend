@@ -55,13 +55,13 @@ Demos of this plugin follow:
 
 
 
-<img alt="Gif" src="https://user-images.githubusercontent.com/10491155/68999539-7ab13200-088f-11ea-9f36-90706d92f68d.gif" width="60%" />
+<img alt="Gif" src="https://user-images.githubusercontent.com/10491155/68999539-7ab13200-088f-11ea-9f36-90706d92f68d.gif" width="80%" />
 
 ### Opening GTkWave from vim
 
-<img alt="Gif" src="https://user-images.githubusercontent.com/251450/55285193-400a9000-53b9-11e9-8cff-ffe4983c5947.gif" width="60%" />
+<img alt="Gif" src="https://user-images.githubusercontent.com/10491155/68999539-7ab13200-088f-11ea-9f36-90706d92f68d.gif"  width="80%" />
 
 ### Adding signals (add-signal branch only!)
 
-<img alt="Gif" src="https://user-images.githubusercontent.com/251450/55285193-400a9000-53b9-11e9-8cff-ffe4983c5947.gif" width="60%" />
+<img alt="Gif" src="https://user-images.githubusercontent.com/10491155/68999570-03c86900-0890-11ea-9d34-f539d1b13b57.gif" width="80%" />
 
