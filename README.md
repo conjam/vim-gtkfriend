@@ -59,7 +59,7 @@ Demos of this plugin follow:
 
 ### Opening GTkWave from vim
 
-<img alt="Gif" src="https://user-images.githubusercontent.com/10491155/68999539-7ab13200-088f-11ea-9f36-90706d92f68d.gif"  width="80%" />
+<img alt="Gif" src="https://user-images.githubusercontent.com/10491155/68999563-d67bbb00-088f-11ea-9f48-cec3859097b6.gif" width="80%" />
 
 ### Adding signals (add-signal branch only!)
 
