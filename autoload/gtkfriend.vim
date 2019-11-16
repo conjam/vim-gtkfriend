@@ -27,10 +27,14 @@ endfunction
 function! s:register_string(line)
   let total_match = matchstr(a:line, s:rpc_regex)
   let g:rpc_id = substitute(total_match,s:rpc_regex, '\1','')
-  echo 'gsettings set com.geda.gtkwave dump-signal-fac-offset '. g:rpc_id . ',' . s:mapfile_path
+  "echo 'gsettings set com.geda.gtkwave dump-signal-fac-offset '. g:rpc_id . ',' . s:mapfile_path
   silent call system('gsettings set com.geda.gtkwave dump-signal-fac-offset '. g:rpc_id . ',' . s:mapfile_path)
   silent cclose
 endfunction
+
+
+
+
 
 function! gtkfriend#opengtk(...)
   if (a:0 > 0)
@@ -83,15 +87,19 @@ function! gtkfriend#register()
   return 
 endfunction
 
-function! gtkfriend#query(word)
+
+function! gtkfriend#query(...) abort
   silent! call s:gtkwave_live()
   if g:registered_gtkfriend == 0 
     echom "No valid gtkwave process currently live!"
     return
   endif
-  let cmd = "vimgrep /".a:word."/j  " . s:mapfile_path 
+  let word = expand('<cword>')
+  if a:0 > 0
+    let word = a:1
+  endif
+  let cmd = "vimgrep /".word."/j  " . s:mapfile_path 
   silent! exec cmd
-  echo a:word
   let results=getqflist()
   if (len(results) == 0)
     echo 'No signal match'
@@ -162,9 +170,15 @@ function! gtkfriend#prettify_qf_layout_and_map_keys(results,mapping) abort
     endfor
     let reasonable_max_len = 60
     let max_fn_len = min([max_fn_len, reasonable_max_len])
-    let qf_format = '"%-' . max_fn_len . 'S | %' . max_lnum_len . 'S | %s"'
-    let evaluating_str = 'printf(' . qf_format .
-                    \ ', v:val["filename"], v:val["lnum"], v:val["text"])'
+    if (a:mapping == 'register')
+      let qf_format = '"%-' . max_fn_len . 'S | %' . max_lnum_len . 'S | %s"'
+      let evaluating_str = 'printf(' . qf_format .
+                      \ ', v:val["filename"], v:val["lnum"], v:val["text"])'
+    elseif (a:mapping == 'query')
+      let qf_format = '" %s"'
+      let evaluating_str = 'printf(' . qf_format .
+                      \ ',  v:val["text"])'
+    endif 
     call append('0', map(a:results, evaluating_str))
 
     " delete empty line
@@ -185,6 +199,57 @@ function! gtkfriend#prettify_qf_layout_and_map_keys(results,mapping) abort
 endfunction
 
 
+function! gtkfriend#dogman(word) abort
+  echo a:word
+  return
+endfunction
+
+
+function! gtkfriend#set_time(time) abort
+  silent! call s:gtkwave_live()
+  if g:registered_gtkfriend == 0 
+    echom "No valid gtkwave process currently live!"
+    return
+  endif
+  silent call system('gsettings set com.geda.gtkwave move-to-time ' . g:rpc_id .',' . a:time) 
+endfunction
+
+function! gtkfriend#zoom_out(...) abort
+  silent! call s:gtkwave_live()
+  if g:registered_gtkfriend == 0 
+    echom "No valid gtkwave process currently live!"
+    return
+  endif
+  let zoom_factor = 1
+  if a:0 > 0
+    let zoom_factor = a:1
+  endif
+  let g:gtkfriend_zoom = g:gtkfriend_zoom - zoom_factor
+  silent call system('gsettings set com.geda.gtkwave zoom-size ' . g:rpc_id .',' . g:gtkfriend_zoom) 
+endfunction
+
+function! gtkfriend#zoom_in(...) abort
+  silent! call s:gtkwave_live()
+  if g:registered_gtkfriend == 0 
+    echom "No valid gtkwave process currently live!"
+    return
+  endif
+  let zoom_factor = 1
+  if a:0 > 0
+    echom a:1
+    let zoom_factor = a:1
+  endif
+  if g:gtkfriend_zoom < 0
+    let g:gtkfriend_zoom = g:gtkfriend_zoom + zoom_factor
+  else
+    let g:gtkfriend_zoom = 0
+  endif
+  if g:gtkfriend_zoom > 30
+    let g:gtkfriend_zoom = 30
+  endif
+  silent call system('gsettings set com.geda.gtkwave zoom-size ' . g:rpc_id .',' . g:gtkfriend_zoom) 
+endfunction
+
 
 
 
@@ -197,6 +262,4 @@ endfunction
 function! gtkfriend#get_valid_cursor_word() abort
     return codequery#is_valid_word(expand('<cword>')) ? expand('<cword>') : ''
 endfunction
-
-
 
