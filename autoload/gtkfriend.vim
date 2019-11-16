@@ -28,7 +28,7 @@ function! s:register_string(line)
   let total_match = matchstr(a:line, s:rpc_regex)
   let g:rpc_id = substitute(total_match,s:rpc_regex, '\1','')
   "echo 'gsettings set com.geda.gtkwave dump-signal-fac-offset '. g:rpc_id . ',' . s:mapfile_path
-  silent call system('gsettings set com.geda.gtkwave dump-signal-fac-offset '. g:rpc_id . ',' . s:mapfile_path)
+  "silent call system('gsettings set com.geda.gtkwave dump-signal-fac-offset '. g:rpc_id . ',' . s:mapfile_path)
   silent cclose
 endfunction
 
