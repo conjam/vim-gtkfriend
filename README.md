@@ -53,7 +53,9 @@ Demos of this plugin follow:
 
 ### Moving around in time
 
-<img alt="Gif" src="https://user-images.githubusercontent.com/251450/55285193-400a9000-53b9-11e9-8cff-ffe4983c5947.gif" width="60%" />
+
+
+<img alt="Gif" src="https://user-images.githubusercontent.com/10491155/68999539-7ab13200-088f-11ea-9f36-90706d92f68d.gif" width="60%" />
 
 ### Opening GTkWave from vim
 
